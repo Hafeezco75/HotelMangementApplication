@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface GuestRepository extends JpaRepository<GuestUser,Integer> {
+    GuestUser findByEmail(String email);
+
 
 }
