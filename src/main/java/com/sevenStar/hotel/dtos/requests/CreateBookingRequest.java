@@ -1,24 +1,20 @@
-package com.sevenStar.hotel.models.entities;
+package com.sevenStar.hotel.dtos.requests;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.*;
+import com.sevenStar.hotel.models.entities.Room;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
-
-@Setter
 @Getter
-@Entity
-public class Booking {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Setter
+public class CreateBookingRequest {
     private Long bookingID;
     private LocalDate checkIn;
     private LocalDate checkOut;
-    @OneToMany
+    @ManyToOne
     private List<Room> room;
 
 }
