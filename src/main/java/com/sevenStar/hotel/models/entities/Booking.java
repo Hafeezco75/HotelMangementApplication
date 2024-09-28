@@ -20,6 +20,6 @@ public class Booking {
     private LocalDate checkIn;
     private LocalDate checkOut;
 
-    @ManyToOne
-    private Room room;
+//    @ManyToOne
+//    private Room room;
 }
