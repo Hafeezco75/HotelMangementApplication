@@ -1,5 +1,8 @@
 package com.sevenStar.hotel.models.entities;
 
+import com.sevenStar.hotel.enums.RoomTypes;
+import com.sevenStar.hotel.enums.UserRoles;
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,16 +15,16 @@ import java.time.LocalDate;
 @Getter
 @Entity
 public class Booking {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookingID;
-
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
-    private String roomType;
-    private String paymentMethod;
-
-//    @ManyToOne
-//    private Room room;
+    private Long bookingID;
+    private LocalDate checkIn;
+    private LocalDate checkOut;
+    @JoinColumn(nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Room room;
+    @Enumerated(EnumType.STRING)
+    private UserRoles userRole;
+    @Enumerated(EnumType.STRING)
+    private RoomTypes roomType;
 }
