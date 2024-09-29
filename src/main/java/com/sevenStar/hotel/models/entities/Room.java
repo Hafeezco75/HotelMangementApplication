@@ -17,8 +17,6 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomId;
 
-    private String roomName;
-
     private BigDecimal roomPrice;
 
     private boolean roomAvailable;
@@ -27,9 +25,8 @@ public class Room {
 
     private String roomImage;
 
-    @Enumerated(EnumType.STRING)
-    private RoomTypes roomType;
-//    remember to validate your enum to throw wrong room type error when you set wrong type wey no dey the enum class
+//    @Enumerated(EnumType.STRING)
+    private String roomType;
 
     private int roomNumber;
 

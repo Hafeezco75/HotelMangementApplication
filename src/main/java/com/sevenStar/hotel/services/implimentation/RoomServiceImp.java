@@ -4,8 +4,13 @@ package com.sevenStar.hotel.services.implimentation;
 import com.sevenStar.hotel.dtos.request.AddRoomRequest;
 import com.sevenStar.hotel.dtos.request.DeleteRoomRequest;
 import com.sevenStar.hotel.dtos.request.UpdateRoomRequest;
-import com.sevenStar.hotel.dtos.response.RoomDTO;
+import com.sevenStar.hotel.dtos.response.AddRoomResponse;
+import com.sevenStar.hotel.dtos.response.DeleteRoomResponse;
+import com.sevenStar.hotel.dtos.response.ReviewAllResponse;
+import com.sevenStar.hotel.dtos.response.UpdateRoomResponse;
+import com.sevenStar.hotel.enums.RoomTypes;
 import com.sevenStar.hotel.exceptions.Exception;
+import com.sevenStar.hotel.exceptions.RoomNotFoundException;
 import com.sevenStar.hotel.models.entities.Room;
 import com.sevenStar.hotel.models.repositories.RoomRepository;
 import com.sevenStar.hotel.services.interfaces.RoomService;
@@ -20,7 +25,8 @@ public class RoomServiceImp implements RoomService {
     private final RoomRepository roomRepository;
 
     @Override
-    public RoomDTO addRoom(AddRoomRequest request) {
+    public AddRoomResponse addRoom(AddRoomRequest request) {
+        RoomTypes room = RoomTypes.fromString(request.getRoomType());
         if(validateRoomNumber(request.getRoomNumber())){
             Room newRoom = roomRepository.save(RoomMapper.mapper(request));
             return RoomMapper.mapper(newRoom);
@@ -30,9 +36,9 @@ public class RoomServiceImp implements RoomService {
     }
 
     @Override
-    public RoomDTO updateRoom(UpdateRoomRequest request) {
+    public UpdateRoomResponse updateRoom(UpdateRoomRequest request) {
 
-        Room foundRoom = findByRoomNumber(request.getOldRoomNumber());
+        Room foundRoom = findByRoomById(request.getId());
         if (foundRoom != null) {
             Room updatedRoom = RoomMapper.mapper(foundRoom,request);
             return RoomMapper.updatedRoom(roomRepository.save(updatedRoom));
@@ -42,8 +48,8 @@ public class RoomServiceImp implements RoomService {
     }
 
     @Override
-    public RoomDTO deleteRoom(DeleteRoomRequest room) {
-        RoomDTO response  = new RoomDTO();
+    public DeleteRoomResponse deleteRoom(DeleteRoomRequest room) {
+        DeleteRoomResponse response  = new DeleteRoomResponse();
         Room foundRoom = findByRoomNumber(room.getRoomNumber());
         if (foundRoom != null) {
             roomRepository.delete(foundRoom);
@@ -53,8 +59,9 @@ public class RoomServiceImp implements RoomService {
     }
 
     @Override
-    public RoomDTO reviewRooms() {
-        RoomDTO reviewRoomResponse = new RoomDTO();
+    public ReviewAllResponse reviewRooms() {
+
+        ReviewAllResponse reviewRoomResponse = new ReviewAllResponse();
         reviewRoomResponse.setRooms(roomRepository.findAll());
         reviewRoomResponse.setMessage("All Rooms");
         return reviewRoomResponse;
@@ -62,19 +69,18 @@ public class RoomServiceImp implements RoomService {
     }
 
     @Override
-    public RoomDTO searchByRoomNumber(int roomNumber) {
-        RoomDTO response = new RoomDTO();
+    public AddRoomResponse searchByRoomNumber(int roomNumber) {
+
         Room foundRoom = findByRoomNumber(roomNumber);
         if(foundRoom != null) {
-            response.setFoundRoom(foundRoom);
-            return response;
+            return RoomMapper.foundRoom(foundRoom);
         }
-        throw new Exception("Room not found check room number again");
+        throw new RoomNotFoundException("Room not found check room number again");
     }
 
     @Override
-    public RoomDTO deleteAllRooms() {
-        RoomDTO response = new RoomDTO();
+    public AddRoomResponse deleteAllRooms() {
+        AddRoomResponse response = new AddRoomResponse();
         roomRepository.deleteAll();
         response.setMessage("All Rooms Deleted");
         return response;
@@ -84,8 +90,21 @@ public class RoomServiceImp implements RoomService {
         return  roomRepository.findByRoomNumber(roomNumber);
     }
 
+    private Room findByRoomById(Long id) {
+        return  roomRepository.findById(id).orElseThrow(() -> new RoomNotFoundException("Room not found check id again"));
+    }
+
     private boolean validateRoomNumber(int roomNumber) {
         Room foundRoom = findByRoomNumber(roomNumber);
         return foundRoom == null;
+    }
+
+    private boolean validateRoomType(RoomTypes roomType) {
+        for( RoomTypes room : RoomTypes.values()){
+            if(roomType.equals(room)){
+                return true;
+            }
+        }
+        throw new RoomNotFoundException("Room Type is wrong check room type again");
     }
 }
