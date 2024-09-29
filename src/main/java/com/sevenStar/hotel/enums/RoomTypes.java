@@ -10,5 +10,4 @@ public enum RoomTypes {
         @FieldNameConstants.Include DELUXE,
         @FieldNameConstants.Include STANDARD;
 
-
 }
