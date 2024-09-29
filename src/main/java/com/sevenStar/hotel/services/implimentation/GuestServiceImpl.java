@@ -11,8 +11,6 @@ import com.sevenStar.hotel.services.interfaces.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 
@@ -53,6 +51,9 @@ public class GuestServiceImpl implements GuestService {
         if (!guestUser.getPassword().equals(loginGuestRequest.getPassword())) {
             throw new InvalidPasswordException("Invalid password");
         }
+        guestUser.setLogin(true);
+        guestRepository.save(guestUser);
+
         LoginGuestResponse loginGuestResponse = new LoginGuestResponse();
         loginGuestResponse.setMessage("Guest Successfully logged in");
         return loginGuestResponse;
@@ -66,6 +67,7 @@ public class GuestServiceImpl implements GuestService {
         }
         guestUser.setFirstName(updateGuestRequest.getFirstName());
         guestUser.setLastName(updateGuestRequest.getLastName());
+        guestUser.setEmail(updateGuestRequest.getEmail());
         guestUser.setPhoneNumber(updateGuestRequest.getPhoneNumber());
         guestUser.setPassword(updateGuestRequest.getPassword());
         guestRepository.save(guestUser);
@@ -105,39 +107,49 @@ public class GuestServiceImpl implements GuestService {
         MakeBookingResponse makeBookingResponse = new MakeBookingResponse();
         makeBookingResponse.setMessage("Booking Successfully made");
         return makeBookingResponse;
-
-
-
     }
 
     @Override
-    public ViewBookingsResponse viewBookings(ViewBookingsRequest viewBookingsRequest) {
+    public Booking viewBookings(ViewBookingsRequest viewBookingsRequest) {
         GuestUser guestUser = guestRepository.findByEmail(viewBookingsRequest.getEmail());
         if (guestUser == null) {
             throw new GuestNotFoundException("Guest not found");
         }
-        List<Booking> bookings = bookingRepository.findByEmail(guestUser);
-        ViewBookingsResponse viewBookingsResponse = new ViewBookingsResponse();
-        if (bookings.isEmpty()) {
-            viewBookingsResponse.setMessage("No bookings found for this guest");
-        }
-        else {
-            viewBookingsResponse.setMessage("List of bookings successfully displayed");
-        }
-        return viewBookingsResponse;
 
-
+        Booking bookings = bookingRepository.getReferenceById(viewBookingsRequest.getId());
+        if (bookings == null) {
+            throw new BookingNotFoundException("Booking not found");
+        }else {
+            return bookings;
+        }
 
     }
 
     @Override
-    public CancelBookingResponse cancelBooking(long id) {
+    public CancelBookingResponse cancelBooking(Long id) {
+        if (id == null) {
+            throw new GuestNotFoundException("Guest not found");
+        }
         bookingRepository.deleteById(id);
         CancelBookingResponse cancelBookingResponse = new CancelBookingResponse();
         cancelBookingResponse.setMessage("Booking Successfully cancelled");
         return cancelBookingResponse;
     }
 
+    @Override
+    public LogoutGuestResponse logoutGuest(LogoutGuestRequest logoutGuestRequest) {
+        GuestUser guestUser = guestRepository.findByEmail(logoutGuestRequest.getEmail().toLowerCase());
+
+        if (guestUser == null) {
+            throw new GuestNotFoundException("Guest not found");
+        }
+
+        guestUser.setLogin(false);
+        guestRepository.save(guestUser);
+        LogoutGuestResponse logoutGuestResponse = new LogoutGuestResponse();
+        logoutGuestResponse.setMessage("Guest Successfully logged out");
+        return logoutGuestResponse;
+    }
 
 
     private void validateBookingRequest(MakeBookingRequest makeBookingRequest) {
@@ -156,6 +168,10 @@ public class GuestServiceImpl implements GuestService {
         if (makeBookingRequest.getCheckInDate() .isAfter(makeBookingRequest.getCheckOutDate()) ) {
             throw new InvalidCheckInDateException("Start date must be before end date");
         }
+    }
+
+    private boolean isUserLoggedIn(){
+        return false;
     }
 
 
