@@ -17,6 +17,7 @@ import java.time.LocalDate;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+<<<<<<< HEAD
     private Long bookingID;
     private LocalDate checkIn;
     private LocalDate checkOut;
@@ -27,4 +28,15 @@ public class Booking {
     private UserRoles userRole;
     @Enumerated(EnumType.STRING)
     private RoomTypes roomType;
+=======
+    private int bookingID;
+
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
+    private String roomType;
+    private String paymentMethod;
+
+//    @ManyToOne
+//    private Room room;
+>>>>>>> b144de605ce8a8e38e11ff12337c1d1a5e29a8b7
 }
