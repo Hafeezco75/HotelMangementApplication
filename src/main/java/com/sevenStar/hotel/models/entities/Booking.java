@@ -15,8 +15,7 @@ public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookingID;
-
+    private Long bookingID;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private String roomType;
