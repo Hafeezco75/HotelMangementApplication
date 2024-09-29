@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class DeleteBookingRequest {
     private Long bookingID;
-
+    private boolean bookingStatus;
 }

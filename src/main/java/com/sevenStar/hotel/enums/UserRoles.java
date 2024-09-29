@@ -1,5 +1,9 @@
 package com.sevenStar.hotel.enums;
 
+import lombok.experimental.FieldNameConstants;
+
+@FieldNameConstants(onlyExplicitlyIncluded = true)
 public enum UserRoles {
-    ADMIN,GUEST
+    @FieldNameConstants.Include ADMIN,
+    @FieldNameConstants.Include GUEST
 }

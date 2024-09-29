@@ -9,14 +9,14 @@ import com.sevenStar.hotel.dtos.response.DeleteBookingResponse;
 import com.sevenStar.hotel.dtos.response.UpdateBookingResponse;
 import com.sevenStar.hotel.models.entities.Booking;
 
-import java.util.List;
-
 public interface BookingService {
     CreateBookingResponse createBooking(CreateBookingRequest createRequest);
 
     DeleteBookingResponse deleteBooking(DeleteBookingRequest deleteRequest);
 
-    List<Booking> getAllBookings(GetBookingRequest getRequest);
+    Booking getAllBookings(GetBookingRequest getRequest);
 
     UpdateBookingResponse updateBooking(UpdateBookingRequest updateRequest);
+
+
 }
