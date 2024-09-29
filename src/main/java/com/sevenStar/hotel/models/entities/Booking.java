@@ -17,8 +17,10 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookingID;
 
-    private LocalDate checkIn;
-    private LocalDate checkOut;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
+    private String roomType;
+    private String paymentMethod;
 
 //    @ManyToOne
 //    private Room room;

@@ -16,11 +16,14 @@ public class GuestUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String username;
+    private String firstName;
+    private String lastName;
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private UserRoles role;
-    private String Email;
+    private String email;
+    private String phoneNumber;
 
     @OneToMany
     private List<Booking> bookings;
