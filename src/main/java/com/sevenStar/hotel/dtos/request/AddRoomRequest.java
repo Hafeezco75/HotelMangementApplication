@@ -1,6 +1,5 @@
 package com.sevenStar.hotel.dtos.request;
 
-import com.sevenStar.hotel.enums.RoomTypes;
 import lombok.Getter;
 import lombok.Setter;
 

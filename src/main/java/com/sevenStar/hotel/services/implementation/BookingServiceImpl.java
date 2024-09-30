@@ -79,16 +79,13 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getAllBookings() {
-
-//        for (Booking bookings : bookingRepository.findAll()) {
-//            if (bookings.getBookingID().equals(getRequest.getBookingID())) {
-//                return bookings;
-//            }
-//            else {
-//                throw new InvalidBookingRequestException("Booking ID is not valid, input correct Booking ID");
-//            }
-//        }
         return bookingRepository.findAll();
+  
+  
+    @Override  
+    public List<Booking> getAllBookings(GetBookingRequest getRequest) {
+        List<Booking> bookings = bookingRepository.findAll();
+        return bookings;
     }
 
     @Override

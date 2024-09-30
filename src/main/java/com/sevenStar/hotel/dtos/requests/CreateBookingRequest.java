@@ -2,7 +2,6 @@ package com.sevenStar.hotel.dtos.requests;
 
 import com.sevenStar.hotel.enums.UserRoles;
 import com.sevenStar.hotel.models.entities.Room;
-import com.sevenStar.hotel.enums.RoomTypes;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NonNull;

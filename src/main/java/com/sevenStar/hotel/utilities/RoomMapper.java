@@ -33,7 +33,7 @@ public class RoomMapper {
     }
 
     public static Room mapper(Room foundRoom, UpdateRoomRequest request) {
-        foundRoom.setRoomId(request.getId());
+        foundRoom.setRoomId(request.getRoomId());
         foundRoom.setRoomNumber(request.getRoomNumber());
         foundRoom.setDescription(request.getDescription());
         foundRoom.setRoomPrice(request.getPrice());
