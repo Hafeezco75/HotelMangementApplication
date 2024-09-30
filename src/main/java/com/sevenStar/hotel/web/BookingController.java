@@ -23,7 +23,7 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
-    @PostMapping("/")
+    @PostMapping("/create")
     public ResponseEntity<?> createBooking(CreateBookingRequest createRequest) {
         try {
             CreateBookingResponse response = bookingService.createBooking(createRequest);
@@ -34,7 +34,7 @@ public class BookingController {
     }
 
 
-    @DeleteMapping("/")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deleteBooking(DeleteBookingRequest deleteRequest) {
         try {
             DeleteBookingResponse bookingResponse = bookingService.deleteBooking(deleteRequest);

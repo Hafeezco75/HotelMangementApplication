@@ -11,14 +11,13 @@ import com.sevenStar.hotel.services.interfaces.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 
 public class GuestServiceImpl implements GuestService {
 
     @Autowired
-    private GuestUserRepository guestUserRepository;
+    private GuestUserRepository guestRepository;
 
     @Autowired
     private BookingRepository bookingRepository;
@@ -34,7 +33,7 @@ public class GuestServiceImpl implements GuestService {
         guestUser.setEmail(registerGuestRequest.getEmail());
         guestUser.setPhoneNumber(registerGuestRequest.getPhoneNumber());
         guestUser.setPassword(registerGuestRequest.getPassword());
-        guestUserRepository.save(guestUser);
+        guestRepository.save(guestUser);
         RegisterGuestResponse registerGuestResponse = new RegisterGuestResponse();
         registerGuestResponse.setMessage("Guest Successfully registered!");
         return registerGuestResponse;
@@ -45,13 +44,16 @@ public class GuestServiceImpl implements GuestService {
     @Override
     public LoginGuestResponse loginGuest(LoginGuestRequest loginGuestRequest) {
 
-        GuestUser guestUser = guestUserRepository.findByEmail(loginGuestRequest.getEmail().toLowerCase());
+        GuestUser guestUser = guestRepository.findByEmail(loginGuestRequest.getEmail().toLowerCase());
         if (guestUser == null) {
             throw new GuestNotFoundException("Guest Not Found");
         }
         if (!guestUser.getPassword().equals(loginGuestRequest.getPassword())) {
             throw new InvalidPasswordException("Invalid password");
         }
+        guestUser.setLogin(true);
+        guestRepository.save(guestUser);
+
         LoginGuestResponse loginGuestResponse = new LoginGuestResponse();
         loginGuestResponse.setMessage("Guest Successfully logged in");
         return loginGuestResponse;
@@ -59,15 +61,16 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     public UpdateGuestResponse updateGuest(UpdateGuestRequest updateGuestRequest) {
-        GuestUser guestUser = guestUserRepository.findByEmail(updateGuestRequest.getEmail());
+        GuestUser guestUser = guestRepository.findByEmail(updateGuestRequest.getEmail());
         if (guestUser == null) {
             throw new GuestNotFoundException("Guest not found");
         }
         guestUser.setFirstName(updateGuestRequest.getFirstName());
         guestUser.setLastName(updateGuestRequest.getLastName());
+        guestUser.setEmail(updateGuestRequest.getEmail());
         guestUser.setPhoneNumber(updateGuestRequest.getPhoneNumber());
         guestUser.setPassword(updateGuestRequest.getPassword());
-        guestUserRepository.save(guestUser);
+        guestRepository.save(guestUser);
         UpdateGuestResponse updateGuestResponse = new UpdateGuestResponse();
         updateGuestResponse.setMessage("Guest Successfully updated");
         return updateGuestResponse;
@@ -76,12 +79,12 @@ public class GuestServiceImpl implements GuestService {
 
     @Override
     public DeleteGuestResponse deleteGuest(DeleteGuestRequest deleteGuestRequest) {
-        GuestUser guestUser = guestUserRepository.findByEmail(deleteGuestRequest.getEmail());
+        GuestUser guestUser = guestRepository.findByEmail(deleteGuestRequest.getEmail());
 
         if (guestUser == null) {
             throw new GuestNotFoundException("Guest not found");
         }
-        guestUserRepository.delete(guestUser);
+        guestRepository.delete(guestUser);
         DeleteGuestResponse deleteGuestResponse = new DeleteGuestResponse();
         deleteGuestResponse.setMessage("Guest Successfully deleted");
         return deleteGuestResponse;
@@ -91,7 +94,7 @@ public class GuestServiceImpl implements GuestService {
     @Override
     public MakeBookingResponse makeBooking(MakeBookingRequest makeBookingRequest) {
         validateBookingRequest(makeBookingRequest);
-        GuestUser guestUser = guestUserRepository.findByEmail(makeBookingRequest.getEmail());
+        GuestUser guestUser = guestRepository.findByEmail(makeBookingRequest.getEmail());
         if (guestUser == null) {
             throw new GuestNotFoundException("Guest not found");
         }
@@ -104,44 +107,54 @@ public class GuestServiceImpl implements GuestService {
         MakeBookingResponse makeBookingResponse = new MakeBookingResponse();
         makeBookingResponse.setMessage("Booking Successfully made");
         return makeBookingResponse;
-
-
-
     }
 
+//    @Override
+//    public Booking viewBookings(ViewBookingsRequest viewBookingsRequest) {
+//        GuestUser guestUser = guestRepository.findByEmail(viewBookingsRequest.getEmail());
+//        if (guestUser == null) {
+//            throw new GuestNotFoundException("Guest not found");
+//        }
+//
+//        Booking bookings = bookingRepository.getReferenceById(viewBookingsRequest.getId());
+//        if (bookings == null) {
+//            throw new BookingNotFoundException("Booking not found");
+//        }else {
+//            return bookings;
+//        }
+//
+//    }
+
     @Override
-    public ViewBookingsResponse viewBookings(ViewBookingsRequest viewBookingsRequest) {
-        GuestUser guestUser = guestUserRepository.findByEmail(viewBookingsRequest.getEmail());
-        if (guestUser == null) {
+    public CancelBookingResponse cancelBooking(Long id) {
+        if (id == null) {
             throw new GuestNotFoundException("Guest not found");
         }
-        List<Booking> bookings = bookingRepository.findByEmail(guestUser);
-        ViewBookingsResponse viewBookingsResponse = new ViewBookingsResponse();
-        if (bookings.isEmpty()) {
-            viewBookingsResponse.setMessage("No bookings found for this guest");
-        }
-        else {
-            viewBookingsResponse.setMessage("List of bookings successfully displayed");
-        }
-        return viewBookingsResponse;
-
-
-
-    }
-
-    @Override
-    public CancelBookingResponse cancelBooking(long id) {
         bookingRepository.deleteById(id);
         CancelBookingResponse cancelBookingResponse = new CancelBookingResponse();
         cancelBookingResponse.setMessage("Booking Successfully cancelled");
         return cancelBookingResponse;
     }
 
+    @Override
+    public LogoutGuestResponse logoutGuest(LogoutGuestRequest logoutGuestRequest) {
+        GuestUser guestUser = guestRepository.findByEmail(logoutGuestRequest.getEmail().toLowerCase());
+
+        if (guestUser == null) {
+            throw new GuestNotFoundException("Guest not found");
+        }
+
+        guestUser.setLogin(false);
+        guestRepository.save(guestUser);
+        LogoutGuestResponse logoutGuestResponse = new LogoutGuestResponse();
+        logoutGuestResponse.setMessage("Guest Successfully logged out");
+        return logoutGuestResponse;
+    }
 
 
     private void validateBookingRequest(MakeBookingRequest makeBookingRequest) {
         if (makeBookingRequest.getEmail() == null || makeBookingRequest.getEmail().isEmpty()) {
-            throw new InvalidBookingRequestException("");
+            throw new InvalidBookingRequestException("Guest email is required");
         }
         if (makeBookingRequest.getCheckInDate() == null ) {
             throw new InvalidBookingDateRequestException("The date is required");
@@ -149,7 +162,7 @@ public class GuestServiceImpl implements GuestService {
         if (makeBookingRequest.getCheckOutDate() == null ) {
             throw new InvalidBookingDateRequestException("The date is required");
         }
-        if (makeBookingRequest.getRoomType() == null || makeBookingRequest.getRoomType().describeConstable().isEmpty()) {
+        if (makeBookingRequest.getRoomType() == null) {
             throw new InvalidRoomTypeRequestException("Room type is required");
         }
         if (makeBookingRequest.getCheckInDate() .isAfter(makeBookingRequest.getCheckOutDate()) ) {
@@ -157,19 +170,18 @@ public class GuestServiceImpl implements GuestService {
         }
     }
 
+    private boolean isUserLoggedIn(){
+        return false;
+    }
 
     private void validateEmail(String email) {
-        GuestUser existingGuest = guestUserRepository.findByEmail(email);
+        GuestUser existingGuest = guestRepository.findByEmail(email);
         if (existingGuest != null && existingGuest.getEmail().equalsIgnoreCase(email)) {
             throw new GuestAlreadyExistException("Guest with same email already exist");
         }
-
         if (!email.contains("@") || !email.endsWith(".com")) {
                 throw new InvalidEmailException("invalid email format");
-
         }
-
-
     }
 
     private void validateRegisterGuestRequest(RegisterGuestRequest registerGuestRequest) {

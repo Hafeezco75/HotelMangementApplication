@@ -21,13 +21,16 @@ public class Booking {
     private Long bookingID;
     private LocalDate checkIn;
     private LocalDate checkOut;
+
     @JoinColumn(nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
     private Room room;
+
     @Enumerated(EnumType.STRING)
     private UserRoles userRole;
-    @Enumerated(EnumType.STRING)
-    private RoomTypes roomType;
+
+//    @Enumerated(EnumType.STRING)
+    private String roomType;
 
     private String paymentMethod;
 

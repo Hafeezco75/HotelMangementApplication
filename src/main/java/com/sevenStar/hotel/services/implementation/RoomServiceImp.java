@@ -27,7 +27,7 @@ public class RoomServiceImp implements RoomService {
     @Override
     public AddRoomResponse addRoom(AddRoomRequest request) {
         RoomTypes room = RoomTypes.fromString(request.getRoomType());
-        if(validateRoomNumber(request.getRoomNumber())){
+        if (validateRoomNumber(request.getRoomNumber())) {
             Room newRoom = roomRepository.save(RoomMapper.mapper(request));
             return RoomMapper.mapper(newRoom);
         }
@@ -40,7 +40,7 @@ public class RoomServiceImp implements RoomService {
 
         Room foundRoom = findByRoomById(request.getId());
         if (foundRoom != null) {
-            Room updatedRoom = RoomMapper.mapper(foundRoom,request);
+            Room updatedRoom = RoomMapper.mapper(foundRoom, request);
             return RoomMapper.updatedRoom(roomRepository.save(updatedRoom));
         }
         throw new Exception("Room not found check room number again");
@@ -49,7 +49,7 @@ public class RoomServiceImp implements RoomService {
 
     @Override
     public DeleteRoomResponse deleteRoom(DeleteRoomRequest room) {
-        DeleteRoomResponse response  = new DeleteRoomResponse();
+        DeleteRoomResponse response = new DeleteRoomResponse();
         Room foundRoom = findByRoomNumber(room.getRoomNumber());
         if (foundRoom != null) {
             roomRepository.delete(foundRoom);
@@ -72,7 +72,7 @@ public class RoomServiceImp implements RoomService {
     public AddRoomResponse searchByRoomNumber(int roomNumber) {
 
         Room foundRoom = findByRoomNumber(roomNumber);
-        if(foundRoom != null) {
+        if (foundRoom != null) {
             return RoomMapper.foundRoom(foundRoom);
         }
         throw new RoomNotFoundException("Room not found check room number again");
@@ -87,24 +87,15 @@ public class RoomServiceImp implements RoomService {
     }
 
     private Room findByRoomNumber(int roomNumber) {
-        return  roomRepository.findByRoomNumber(roomNumber);
+        return roomRepository.findByRoomNumber(roomNumber);
     }
 
     private Room findByRoomById(Long id) {
-        return  roomRepository.findById(id).orElseThrow(() -> new RoomNotFoundException("Room not found check id again"));
+        return roomRepository.findById(id).orElseThrow(() -> new RoomNotFoundException("Room not found check id again"));
     }
 
     private boolean validateRoomNumber(int roomNumber) {
         Room foundRoom = findByRoomNumber(roomNumber);
         return foundRoom == null;
-    }
-
-    private boolean validateRoomType(RoomTypes roomType) {
-        for( RoomTypes room : RoomTypes.values()){
-            if(roomType.equals(room)){
-                return true;
-            }
-        }
-        throw new RoomNotFoundException("Room Type is wrong check room type again");
     }
 }
