@@ -7,21 +7,19 @@ import com.sevenStar.hotel.dtos.requests.UpdateBookingRequest;
 import com.sevenStar.hotel.dtos.response.CreateBookingResponse;
 import com.sevenStar.hotel.dtos.response.DeleteBookingResponse;
 import com.sevenStar.hotel.dtos.response.UpdateBookingResponse;
-import com.sevenStar.hotel.enums.RoomTypes;
 import com.sevenStar.hotel.enums.UserRoles;
 import com.sevenStar.hotel.models.entities.Booking;
 import com.sevenStar.hotel.models.entities.Room;
 import com.sevenStar.hotel.services.interfaces.BookingService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class BookingServiceImplTest {
@@ -36,12 +34,11 @@ class BookingServiceImplTest {
         request.setCheckIn(LocalDate.of(2023,3,17));
         request.setCheckOut(LocalDate.now());
         Room room = new Room();
-        room.setRoomName("Room 438");
         room.setRoomAvailable(true);
         room.setRoomImage("Beautiful Room");
         room.setDescription("An Exquisite room and classy one");
         room.setRoomPrice(new BigDecimal("15.0"));
-        room.setRoomType(RoomTypes.DELUXE);
+        room.setRoomType("Deluxe");
         request.setRoom(room);
         request.setUserRole(userRole);
         CreateBookingResponse response = bookingService.createBooking(request);
@@ -55,12 +52,11 @@ class BookingServiceImplTest {
         request.setCheckIn(LocalDate.of(2024,7,27));
         request.setCheckOut(LocalDate.now());
         Room room = new Room();
-        room.setRoomName("Room 432");
         room.setRoomAvailable(true);
         room.setRoomImage("Basic Room");
         room.setDescription("A Real home");
         room.setRoomPrice(new BigDecimal("98000.0"));
-        room.setRoomType(RoomTypes.STANDARD);
+        room.setRoomType("Standard");
         request.setRoom(room);
         UpdateBookingResponse response = bookingService.updateBooking(request);
         assertThat(response.getMessage()).isEqualTo("Booking details updated successfully");
@@ -79,9 +75,9 @@ class BookingServiceImplTest {
     public void testThatBookingInformationCanBeRetrieved() {
         GetBookingRequest getRequest = new GetBookingRequest();
         getRequest.setBookingID(1L);
-        Booking booking = bookingService.getAllBookings(getRequest);
-        assertThat(booking.getBookingID()).isEqualTo(1L);
-        assertThat(booking.getCheckOut()).isEqualTo(LocalDate.of(2024,9,29));
+        List<Booking> booking = bookingService.getAllBookings(getRequest);
+        assertThat(booking.isEmpty()).isFalse();
+        assertThat(booking.size()).isEqualTo(1);
     }
 
 }

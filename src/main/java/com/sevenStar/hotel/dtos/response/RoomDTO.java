@@ -2,7 +2,6 @@ package com.sevenStar.hotel.dtos.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import com.sevenStar.hotel.enums.RoomTypes;
 import com.sevenStar.hotel.models.entities.Room;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +20,7 @@ public class RoomDTO {
     private BigDecimal roomPrice;
     private String description;
     private String roomImage;
-    private RoomTypes roomType;
+    private String roomType;
     private List<Room> rooms;
     private String message;
     private int roomNumber;

@@ -5,7 +5,6 @@ import com.sevenStar.hotel.dtos.request.AddRoomRequest;
 import com.sevenStar.hotel.dtos.request.DeleteRoomRequest;
 import com.sevenStar.hotel.dtos.request.UpdateRoomRequest;
 import com.sevenStar.hotel.dtos.response.RoomDTO;
-import com.sevenStar.hotel.enums.RoomTypes;
 import com.sevenStar.hotel.services.interfaces.RoomService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ public class RoomServiceTest {
     public void testThatOneRoomIsAdded() {
         AddRoomRequest request = new AddRoomRequest();
         request.setRoomName("family-size");
-        request.setRoomType(RoomTypes.DELUXE);
+        request.setRoomType("Executive");
         request.setDescription("The Room is a duplex and relaxing");
         request.setRoomPrice(BigDecimal.valueOf(90000));
         request.setRoomImage("imageURL");
@@ -50,7 +49,7 @@ public class RoomServiceTest {
     public void testThatTwoRoomIsAddedAndCanBeViewed() {
         AddRoomRequest request = new AddRoomRequest();
         request.setRoomName("family-size");
-        request.setRoomType(RoomTypes.EXECUTIVE);
+        request.setRoomType("Executive");
         request.setDescription("The Room is a duplex and relaxing");
         request.setRoomPrice(BigDecimal.valueOf(90000));
         request.setRoomImage("imageURL");
@@ -58,7 +57,7 @@ public class RoomServiceTest {
         roomService.addRoom(request);
         AddRoomRequest request2 = new AddRoomRequest();
         request2.setRoomName("Kings");
-        request2.setRoomType(RoomTypes.STANDARD);
+        request2.setRoomType("Standard");
         request2.setDescription("The Room is a flat and suitable for extended family");
         request2.setRoomPrice(BigDecimal.valueOf(30000));
         request2.setRoomImage("HouseImageURL");
@@ -73,7 +72,7 @@ public class RoomServiceTest {
     public void testThatRoomsIsAddedAndCanAllBeDeleted() {
         AddRoomRequest request = new AddRoomRequest();
         request.setRoomName("family-size");
-        request.setRoomType(RoomTypes.DUPLEX);
+        request.setRoomType("Duplex");
         request.setDescription("The Room is a duplex and relaxing");
         request.setRoomPrice(BigDecimal.valueOf(90000));
         request.setRoomImage("imageURL");
@@ -81,7 +80,7 @@ public class RoomServiceTest {
         roomService.addRoom(request);
         AddRoomRequest request2 = new AddRoomRequest();
         request2.setRoomName("Kings");
-        request2.setRoomType(RoomTypes.EXECUTIVE);
+        request2.setRoomType("Executive");
         request2.setDescription("The Room is a flat and suitable for extended family");
         request2.setRoomPrice(BigDecimal.valueOf(30000));
         request2.setRoomImage("HouseImageURL");
@@ -95,7 +94,7 @@ public class RoomServiceTest {
     public void testThatTwoRoomIsAddedAndOneCanBeDeleted() {
         AddRoomRequest request = new AddRoomRequest();
         request.setRoomName("family-size");
-        request.setRoomType(RoomTypes.DUPLEX);
+        request.setRoomType("Duplex");
         request.setDescription("The Room is a duplex and relaxing");
         request.setRoomPrice(BigDecimal.valueOf(90000));
         request.setRoomImage("imageURL");
@@ -103,7 +102,7 @@ public class RoomServiceTest {
         RoomDTO room = roomService.addRoom(request);
         AddRoomRequest request2 = new AddRoomRequest();
         request2.setRoomName("Kings");
-        request2.setRoomType(RoomTypes.STANDARD);
+        request2.setRoomType("Classical");
         request2.setDescription("The Room is a flat and suitable for extended family");
         request2.setRoomPrice(BigDecimal.valueOf(30000));
         request2.setRoomImage("HouseImageURL");
@@ -120,7 +119,7 @@ public class RoomServiceTest {
     public void testThatParticularApartmentCanBeSearchedForByRoomNumber() {
         AddRoomRequest request = new AddRoomRequest();
         request.setRoomName("family-size");
-        request.setRoomType(RoomTypes.DUPLEX);
+        request.setRoomType("Duplex");
         request.setDescription("The Room is a duplex and relaxing");
         request.setRoomPrice(BigDecimal.valueOf(90000));
         request.setRoomImage("imageURL");
@@ -128,14 +127,13 @@ public class RoomServiceTest {
         RoomDTO addedRoom = roomService.addRoom(request);
         AddRoomRequest request2 = new AddRoomRequest();
         request2.setRoomName("Kings");
-        request2.setRoomType(RoomTypes.STANDARD);
+        request2.setRoomType("Standard");
         request2.setDescription("The Room is a flat and suitable for extended family");
         request2.setRoomPrice(BigDecimal.valueOf(30000));
         request2.setRoomImage("HouseImageURL");
         request2.setRoomNumber(911);
         roomService.addRoom(request2);
         RoomDTO FoundRoom = roomService.searchByRoomNumber(addedRoom.getRoomNumber());
-        assertEquals("family-size",FoundRoom.getFoundRoom().getRoomName());
         assertEquals(419,FoundRoom.getFoundRoom().getRoomNumber());
     }
 
@@ -143,7 +141,7 @@ public class RoomServiceTest {
     public void testThatAnApartmentDetailCanBeUpdated() {
         AddRoomRequest request = new AddRoomRequest();
         request.setRoomName("family-size");
-        request.setRoomType(RoomTypes.STANDARD);
+        request.setRoomType("Classical");
         request.setDescription("The Room is a duplex and relaxing");
         request.setRoomPrice(BigDecimal.valueOf(90000));
         request.setRoomImage("imageURL");
@@ -153,7 +151,7 @@ public class RoomServiceTest {
         request2.setOldRoomNumber(419);
         request2.setNewRoomNumber(2024);
         request2.setName("Kings");
-        request2.setType(RoomTypes.EXECUTIVE);
+        request2.setType("Executive");
         request2.setDescription("The Room is a flat and suitable for extended family");
         request2.setPrice(BigDecimal.valueOf(700000));
         RoomDTO updatedRoom = roomService.updateRoom(request2);

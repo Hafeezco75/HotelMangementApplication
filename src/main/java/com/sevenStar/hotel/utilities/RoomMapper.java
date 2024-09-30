@@ -10,7 +10,6 @@ public class RoomMapper {
 
     public static Room mapper(AddRoomRequest request) {
         Room room = new Room();
-        room.setRoomName(request.getRoomName());
         room.setDescription(request.getDescription());
         room.setRoomPrice(request.getRoomPrice());
         room.setRoomImage(request.getRoomImage());
@@ -22,7 +21,6 @@ public class RoomMapper {
     public static RoomDTO mapper(Room room) {
         RoomDTO roomDTO = new RoomDTO();
         roomDTO.setRoomId(room.getRoomId());
-        roomDTO.setRoomName(room.getRoomName());
         roomDTO.setDescription(room.getDescription());
         roomDTO.setRoomPrice(room.getRoomPrice());
         roomDTO.setRoomImage(room.getRoomImage());
@@ -34,7 +32,6 @@ public class RoomMapper {
 
     public static Room mapper(Room foundRoom, UpdateRoomRequest request) {
         foundRoom.setRoomNumber(request.getNewRoomNumber());
-        foundRoom.setRoomName(request.getName());
         foundRoom.setDescription(request.getDescription());
         foundRoom.setRoomPrice(request.getPrice());
         foundRoom.setRoomAvailable(request.isAvailable());
@@ -46,7 +43,6 @@ public class RoomMapper {
     public static RoomDTO updatedRoom(Room foundRoom) {
         RoomDTO roomDTO = new RoomDTO();
         roomDTO.setRoomNumber(foundRoom.getRoomNumber());
-        roomDTO.setRoomName(foundRoom.getRoomName());
         roomDTO.setDescription(foundRoom.getDescription());
         roomDTO.setRoomPrice(foundRoom.getRoomPrice());
         roomDTO.setRoomAvailable(foundRoom.isRoomAvailable());

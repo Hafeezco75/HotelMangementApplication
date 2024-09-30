@@ -1,6 +1,5 @@
 package com.sevenStar.hotel.dtos.request;
 
-import com.sevenStar.hotel.enums.RoomTypes;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +13,7 @@ public class UpdateRoomRequest {
     private BigDecimal price;
     private String description;
     private String image;
-    private RoomTypes type;
+    private String type;
     private int OldRoomNumber;
     private int NewRoomNumber;
 }

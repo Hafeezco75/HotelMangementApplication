@@ -1,8 +1,6 @@
 package com.sevenStar.hotel.models.entities;
 
-import com.sevenStar.hotel.enums.RoomTypes;
 import com.sevenStar.hotel.enums.UserRoles;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,12 +24,7 @@ public class Booking {
     private Room room;
     @Enumerated(EnumType.STRING)
     private UserRoles userRole;
-    @Enumerated(EnumType.STRING)
-    private RoomTypes roomType;
-
-
-//    private LocalDate checkInDate;
-//    private LocalDate checkOutDate;
+    private String roomType;
     private String paymentMethod;
 
 }
