@@ -1,0 +1,10 @@
+<system.net>
+    <mailSettings>
+        <smtp>
+            <network enableSsl="true"/>
+        </smtp>
+    </mailSettings>
+</system.net>
+
+
+client.Credentials = new NetworkCredential("hafeezco75@gmail.com", "abhhscwaxmpqmueq")
