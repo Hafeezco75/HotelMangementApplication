@@ -69,7 +69,6 @@ public class RoomController {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteRoom(@RequestBody DeleteRoomRequest room) {
          try{

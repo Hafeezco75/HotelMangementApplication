@@ -79,11 +79,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getAllBookings() {
-        return bookingRepository.findAll();
-  
-  
-    @Override  
-    public List<Booking> getAllBookings(GetBookingRequest getRequest) {
         List<Booking> bookings = bookingRepository.findAll();
         return bookings;
     }
@@ -108,13 +103,13 @@ public class BookingServiceImpl implements BookingService {
 
 
     private void validateBookingRoomIsNotNull(){
-       for (Booking booking : bookingRepository.findAll()) {
-           if (booking.getRoom() == null) {
-               throw new InvalidBookingRequestException("Booking Room Not Found,Input Valid Booking Details");
-           }else {
-               booking.setRoom(booking.getRoom());
-           }
-       }
+        for (Booking booking : bookingRepository.findAll()) {
+            if (booking.getRoom() == null) {
+                throw new InvalidBookingRequestException("Booking Room Not Found,Input Valid Booking Details");
+            }else {
+                booking.setRoom(booking.getRoom());
+            }
+        }
     }
 
     private void validateUserRoles(){
@@ -131,7 +126,7 @@ public class BookingServiceImpl implements BookingService {
         }
     }
 
-    private void validateBookingInformation(CreateBookingRequest createRequest){
+    private void validateBookingInformation(CreateBookingRequest createRequest) {
         for (Booking booking : bookingRepository.findAll()) {
             if (booking.getRoom().equals(createRequest.getRoom())) {
                 if (booking.getUserRole().equals(UserRoles.ADMIN)) {
@@ -139,11 +134,12 @@ public class BookingServiceImpl implements BookingService {
                         throw new BookingInformationExistException("Booking Information Already Exists, Input a new Booking Information");
                     }
                 }
-            }else {
+            } else {
                 booking.setCheckIn(booking.getCheckIn());
                 booking.setCheckOut(booking.getCheckOut());
             }
         }
     }
+
 
 }

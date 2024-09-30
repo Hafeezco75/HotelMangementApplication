@@ -75,7 +75,7 @@ class BookingServiceImplTest {
     public void testThatBookingInformationCanBeRetrieved() {
         GetBookingRequest getRequest = new GetBookingRequest();
         getRequest.setBookingID(1L);
-        List<Booking> booking = bookingService.getAllBookings(getRequest);
+        List<Booking> booking = bookingService.getAllBookings();
         assertThat(booking.isEmpty()).isFalse();
         assertThat(booking.size()).isEqualTo(1);
     }

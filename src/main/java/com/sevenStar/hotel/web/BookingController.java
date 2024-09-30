@@ -68,7 +68,7 @@ public class BookingController {
     @GetMapping("/getBooking")
     public ResponseEntity<?> getAllBookings(GetBookingRequest getRequest) {
         try {
-            List<Booking> bookings = bookingService.getAllBookings(getRequest);
+            List<Booking> bookings = bookingService.getAllBookings();
             return new ResponseEntity<>(bookings, HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
