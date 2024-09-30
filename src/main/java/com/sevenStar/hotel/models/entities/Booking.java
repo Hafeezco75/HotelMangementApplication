@@ -29,9 +29,6 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private RoomTypes roomType;
 
-
-//    private LocalDate checkInDate;
-//    private LocalDate checkOutDate;
     private String paymentMethod;
 
 }

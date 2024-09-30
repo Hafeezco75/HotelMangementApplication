@@ -1,4 +1,4 @@
-package com.sevenStar.hotel.services;
+package com.sevenStar.hotel.services.implementation;
 
 
 import com.sevenStar.hotel.dtos.request.AddRoomRequest;
@@ -8,7 +8,6 @@ import com.sevenStar.hotel.dtos.response.AddRoomResponse;
 import com.sevenStar.hotel.dtos.response.DeleteRoomResponse;
 import com.sevenStar.hotel.dtos.response.ReviewAllResponse;
 import com.sevenStar.hotel.dtos.response.UpdateRoomResponse;
-import com.sevenStar.hotel.enums.RoomTypes;
 import com.sevenStar.hotel.services.interfaces.RoomService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
