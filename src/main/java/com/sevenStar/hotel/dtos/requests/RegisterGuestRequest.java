@@ -1,5 +1,6 @@
 package com.sevenStar.hotel.dtos.requests;
 
+import com.sevenStar.hotel.enums.UserRoles;
 import lombok.Getter;
 import lombok.Setter;
 
