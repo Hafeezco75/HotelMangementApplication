@@ -78,6 +78,11 @@ public class BookingServiceImpl implements BookingService {
 
 
     @Override
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
+  
+  
+    @Override  
     public List<Booking> getAllBookings(GetBookingRequest getRequest) {
         List<Booking> bookings = bookingRepository.findAll();
         return bookings;

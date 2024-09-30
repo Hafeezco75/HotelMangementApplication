@@ -20,5 +20,4 @@ public interface BookingService {
 
     UpdateBookingResponse updateBooking(UpdateBookingRequest updateRequest);
 
-
 }
