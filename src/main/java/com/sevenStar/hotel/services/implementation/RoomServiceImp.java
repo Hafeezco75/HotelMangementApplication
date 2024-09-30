@@ -38,7 +38,7 @@ public class RoomServiceImp implements RoomService {
     @Override
     public UpdateRoomResponse updateRoom(UpdateRoomRequest request) {
 
-        Room foundRoom = findByRoomById(request.getId());
+        Room foundRoom = findByRoomById(request.getRoomId());
         if (foundRoom != null) {
             Room updatedRoom = RoomMapper.mapper(foundRoom, request);
             return RoomMapper.updatedRoom(roomRepository.save(updatedRoom));
