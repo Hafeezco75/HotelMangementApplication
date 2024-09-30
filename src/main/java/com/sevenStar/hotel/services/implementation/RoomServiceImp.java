@@ -1,4 +1,4 @@
-package com.sevenStar.hotel.services.implimentation;
+package com.sevenStar.hotel.services.implementation;
 
 
 import com.sevenStar.hotel.dtos.request.AddRoomRequest;
