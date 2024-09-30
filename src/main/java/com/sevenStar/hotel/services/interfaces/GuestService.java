@@ -18,7 +18,7 @@ public interface GuestService {
 
     MakeBookingResponse makeBooking(MakeBookingRequest makeBookingRequest);
 
-    Booking viewBookings(ViewBookingsRequest viewBookingsRequest);
+//    Booking viewBookings(ViewBookingsRequest viewBookingsRequest);
 
     CancelBookingResponse cancelBooking(Long id);
 

@@ -8,7 +8,9 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 public class UpdateRoomRequest {
+    private Long roomId;
     private String name;
+    private int roomNumber;
     private boolean isAvailable;
     private BigDecimal price;
     private String description;

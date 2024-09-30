@@ -6,7 +6,7 @@ import com.sevenStar.hotel.exceptions.*;
 import com.sevenStar.hotel.models.entities.Booking;
 import com.sevenStar.hotel.models.entities.GuestUser;
 import com.sevenStar.hotel.models.repositories.BookingRepository;
-import com.sevenStar.hotel.models.repositories.GuestRepository;
+import com.sevenStar.hotel.models.repositories.GuestUserRepository;
 import com.sevenStar.hotel.services.interfaces.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class GuestServiceImpl implements GuestService {
 
     @Autowired
-    private GuestRepository guestRepository;
+    private GuestUserRepository guestRepository;
 
     @Autowired
     private BookingRepository bookingRepository;
@@ -109,21 +109,21 @@ public class GuestServiceImpl implements GuestService {
         return makeBookingResponse;
     }
 
-    @Override
-    public Booking viewBookings(ViewBookingsRequest viewBookingsRequest) {
-        GuestUser guestUser = guestRepository.findByEmail(viewBookingsRequest.getEmail());
-        if (guestUser == null) {
-            throw new GuestNotFoundException("Guest not found");
-        }
-
-        Booking bookings = bookingRepository.getReferenceById(viewBookingsRequest.getId());
-        if (bookings == null) {
-            throw new BookingNotFoundException("Booking not found");
-        }else {
-            return bookings;
-        }
-
-    }
+//    @Override
+//    public Booking viewBookings(ViewBookingsRequest viewBookingsRequest) {
+//        GuestUser guestUser = guestRepository.findByEmail(viewBookingsRequest.getEmail());
+//        if (guestUser == null) {
+//            throw new GuestNotFoundException("Guest not found");
+//        }
+//
+//        Booking bookings = bookingRepository.getReferenceById(viewBookingsRequest.getId());
+//        if (bookings == null) {
+//            throw new BookingNotFoundException("Booking not found");
+//        }else {
+//            return bookings;
+//        }
+//
+//    }
 
     @Override
     public CancelBookingResponse cancelBooking(Long id) {
@@ -174,19 +174,14 @@ public class GuestServiceImpl implements GuestService {
         return false;
     }
 
-
     private void validateEmail(String email) {
         GuestUser existingGuest = guestRepository.findByEmail(email);
         if (existingGuest != null && existingGuest.getEmail().equalsIgnoreCase(email)) {
             throw new GuestAlreadyExistException("Guest with same email already exist");
         }
-
         if (!email.contains("@") || !email.endsWith(".com")) {
                 throw new InvalidEmailException("invalid email format");
-
         }
-
-
     }
 
     private void validateRegisterGuestRequest(RegisterGuestRequest registerGuestRequest) {
