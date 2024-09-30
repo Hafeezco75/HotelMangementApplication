@@ -109,21 +109,21 @@ public class GuestServiceImpl implements GuestService {
         return makeBookingResponse;
     }
 
-    @Override
-    public Booking viewBookings(ViewBookingsRequest viewBookingsRequest) {
-        GuestUser guestUser = guestRepository.findByEmail(viewBookingsRequest.getEmail());
-        if (guestUser == null) {
-            throw new GuestNotFoundException("Guest not found");
-        }
-
-        Booking bookings = bookingRepository.getReferenceById(viewBookingsRequest.getId());
-        if (bookings == null) {
-            throw new BookingNotFoundException("Booking not found");
-        }else {
-            return bookings;
-        }
-
-    }
+//    @Override
+//    public Booking viewBookings(ViewBookingsRequest viewBookingsRequest) {
+//        GuestUser guestUser = guestRepository.findByEmail(viewBookingsRequest.getEmail());
+//        if (guestUser == null) {
+//            throw new GuestNotFoundException("Guest not found");
+//        }
+//
+//        Booking bookings = bookingRepository.getReferenceById(viewBookingsRequest.getId());
+//        if (bookings == null) {
+//            throw new BookingNotFoundException("Booking not found");
+//        }else {
+//            return bookings;
+//        }
+//
+//    }
 
     @Override
     public CancelBookingResponse cancelBooking(Long id) {
