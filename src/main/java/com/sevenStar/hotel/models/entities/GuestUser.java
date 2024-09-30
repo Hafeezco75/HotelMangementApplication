@@ -24,7 +24,9 @@ public class GuestUser {
     private UserRoles role;
     private String email;
     private String phoneNumber;
+    private boolean isLogin;
 
     @OneToMany
     private List<Booking> bookings;
+
 }

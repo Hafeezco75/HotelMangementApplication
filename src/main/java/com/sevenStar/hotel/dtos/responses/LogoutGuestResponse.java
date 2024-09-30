@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ViewBookingsResponse {
+
+public class LogoutGuestResponse {
     private String message;
 }
