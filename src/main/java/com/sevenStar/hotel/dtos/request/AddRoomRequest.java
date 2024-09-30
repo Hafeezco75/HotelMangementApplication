@@ -9,11 +9,10 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 public class AddRoomRequest {
-    private String roomName;
     private boolean roomAvailable = true;
     private BigDecimal roomPrice;
     private String description;
     private String roomImage;
-    private RoomTypes roomType;
+    private String roomType;
     private int roomNumber;
 }

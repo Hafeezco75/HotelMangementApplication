@@ -14,7 +14,7 @@ public class MakeBookingRequest {
     private String email;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
-    private RoomTypes roomType;
+    private String roomType;
     private String paymentMethod;
 
 

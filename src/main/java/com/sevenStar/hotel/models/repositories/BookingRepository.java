@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    Booking findByRoomTypeAndBookingID(RoomTypes roomType, Long bookingID);
+    Booking findByRoomTypeAndBookingID(String roomType, Long bookingID);
 
     //List<Booking> findByEmail(GuestUser guestUser);
 

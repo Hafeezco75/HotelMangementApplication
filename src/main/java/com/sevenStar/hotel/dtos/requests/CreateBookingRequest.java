@@ -21,7 +21,7 @@ public class CreateBookingRequest {
     @NonNull
     private UserRoles userRole;
     @NonNull
-    private RoomTypes roomType;
+    private String roomType;
 
 
 }
