@@ -1,4 +1,4 @@
-package com.sevenStar.hotel.services.implimentation;
+package com.sevenStar.hotel.services.implementation;
 
 import com.sevenStar.hotel.dtos.requests.*;
 import com.sevenStar.hotel.dtos.responses.*;
@@ -99,8 +99,8 @@ public class GuestServiceImpl implements GuestService {
             throw new GuestNotFoundException("Guest not found");
         }
         Booking booking = new Booking();
-        booking.setCheckInDate(makeBookingRequest.getCheckInDate());
-        booking.setCheckOutDate(makeBookingRequest.getCheckOutDate());
+        booking.setCheckIn(makeBookingRequest.getCheckInDate());
+        booking.setCheckOut(makeBookingRequest.getCheckOutDate());
         booking.setRoomType(makeBookingRequest.getRoomType());
         booking.setPaymentMethod(makeBookingRequest.getPaymentMethod());
         bookingRepository.save(booking);
@@ -162,7 +162,7 @@ public class GuestServiceImpl implements GuestService {
         if (makeBookingRequest.getCheckOutDate() == null ) {
             throw new InvalidBookingDateRequestException("The date is required");
         }
-        if (makeBookingRequest.getRoomType() == null || makeBookingRequest.getRoomType().isEmpty()) {
+        if (makeBookingRequest.getRoomType() == null) {
             throw new InvalidRoomTypeRequestException("Room type is required");
         }
         if (makeBookingRequest.getCheckInDate() .isAfter(makeBookingRequest.getCheckOutDate()) ) {
