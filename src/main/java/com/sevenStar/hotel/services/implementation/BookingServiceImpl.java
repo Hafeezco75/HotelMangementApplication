@@ -17,6 +17,7 @@ import com.sevenStar.hotel.exceptions.InvalidBookingRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -77,16 +78,17 @@ public class BookingServiceImpl implements BookingService {
 
 
     @Override
-    public Booking getAllBookings(GetBookingRequest getRequest) {
-        for (Booking bookings : bookingRepository.findAll()) {
-            if (bookings.getBookingID().equals(getRequest.getBookingID())) {
-                return bookings;
-            }
-            else {
-                throw new InvalidBookingRequestException("Booking ID is not valid, input correct Booking ID");
-            }
-        }
-        return null;
+    public List<Booking> getAllBookings() {
+
+//        for (Booking bookings : bookingRepository.findAll()) {
+//            if (bookings.getBookingID().equals(getRequest.getBookingID())) {
+//                return bookings;
+//            }
+//            else {
+//                throw new InvalidBookingRequestException("Booking ID is not valid, input correct Booking ID");
+//            }
+//        }
+        return bookingRepository.findAll();
     }
 
     @Override
