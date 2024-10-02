@@ -1,8 +1,8 @@
 package com.sevenStar.hotel.utilities;
 
 
-import com.sevenStar.hotel.dtos.request.AddRoomRequest;
-import com.sevenStar.hotel.dtos.request.UpdateRoomRequest;
+import com.sevenStar.hotel.dtos.requests.AddRoomRequest;
+import com.sevenStar.hotel.dtos.requests.UpdateRoomRequest;
 import com.sevenStar.hotel.dtos.response.AddRoomResponse;
 import com.sevenStar.hotel.dtos.response.UpdateRoomResponse;
 import com.sevenStar.hotel.models.entities.Room;

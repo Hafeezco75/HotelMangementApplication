@@ -1,4 +1,4 @@
-package com.sevenStar.hotel.dtos.responses;
+package com.sevenStar.hotel.dtos.response;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class RegisterGuestResponse {
+public class LogoutGuestResponse {
     private String message;
 }

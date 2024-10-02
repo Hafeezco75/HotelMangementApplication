@@ -1,4 +1,4 @@
-package com.sevenStar.hotel.dtos.responses;
+package com.sevenStar.hotel.dtos.response;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,5 @@ import lombok.Setter;
 
 public class DeleteGuestResponse {
     private String message;
-
 
 }

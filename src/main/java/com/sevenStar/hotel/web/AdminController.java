@@ -1,44 +1,66 @@
 package com.sevenStar.hotel.web;
 
-import com.sevenStar.hotel.dtos.request.AddRoomRequest;
-import com.sevenStar.hotel.dtos.request.DeleteRoomRequest;
-import com.sevenStar.hotel.dtos.request.UpdateRoomRequest;
-import com.sevenStar.hotel.dtos.requests.DeleteBookingRequest;
-import com.sevenStar.hotel.dtos.requests.DeleteGuestRequest;
-import com.sevenStar.hotel.dtos.requests.GetBookingRequest;
+import com.sevenStar.hotel.dtos.requests.AddRoomRequest;
+import com.sevenStar.hotel.dtos.requests.DeleteRoomRequest;
+import com.sevenStar.hotel.dtos.requests.UpdateRoomRequest;
+import com.sevenStar.hotel.dtos.requests.*;
+import com.sevenStar.hotel.dtos.response.ApiResponse;
+import com.sevenStar.hotel.dtos.response.DeleteGuestResponse;
+import com.sevenStar.hotel.dtos.response.LoginGuestResponse;
+import com.sevenStar.hotel.dtos.response.LogoutGuestResponse;
+import com.sevenStar.hotel.dtos.response.RegisterGuestResponse;
+import com.sevenStar.hotel.enums.UserRoles;
 import com.sevenStar.hotel.models.entities.Booking;
-import com.sevenStar.hotel.models.entities.GuestUser;
 import com.sevenStar.hotel.models.entities.Room;
 import com.sevenStar.hotel.services.implementation.BookingServiceImpl;
-import com.sevenStar.hotel.services.implementation.GuestServiceImpl;
 import com.sevenStar.hotel.services.interfaces.RoomService;
+import com.sevenStar.hotel.services.interfaces.UserService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping()
+@RolesAllowed(UserRoles.Fields.ADMIN)
 public class AdminController {
 
     @Autowired
-    private RoomService roomService; // Service to manage rooms
+    private RoomService roomService;
 
     @Autowired
-    private BookingServiceImpl bookingService; // Service to manage bookings
+    private BookingServiceImpl bookingService;
     @Autowired
-    private GuestServiceImpl guestServiceImpl;
+    private UserService guestServiceImpl;
 
 
-    // Room Management services for admin
+    @PostMapping("/registerAdmin")
+    public ResponseEntity<?> registerAdmin(@RequestBody RegisterGuestRequest registerGuestRequest){
+        try{
+            RegisterGuestResponse registerGuestResponse = guestServiceImpl.registerGuest(registerGuestRequest);
+            return new ResponseEntity<>(new ApiResponse(true, registerGuestResponse.getMessage()), HttpStatus.CREATED);
+        }catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()),HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @GetMapping("/loginAdmin")
+    public ResponseEntity<?> loginAdmin(@RequestBody LoginGuestRequest loginGuestRequest){
+        try{
+            LoginGuestResponse loginGuestResponse = guestServiceImpl.loginGuest(loginGuestRequest);
+            return new ResponseEntity<>(new ApiResponse(true, loginGuestResponse.getMessage()), HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()),HttpStatus.BAD_REQUEST);
+        }
+    }
     @PostMapping("/add-room")
     public ResponseEntity<String> addRoom(@RequestBody AddRoomRequest room) {
         roomService.addRoom(room);
         return ResponseEntity.ok("Room added successfully!");
     }
-
     @PutMapping("/update-room")
     public ResponseEntity<String> updateRoom(@RequestBody UpdateRoomRequest room) {
         roomService.updateRoom(room);
@@ -51,46 +73,45 @@ public class AdminController {
         return ResponseEntity.ok("Room deleted successfully!");
     }
 
-    @GetMapping("/rooms")
+    @GetMapping("/allRooms")
     public List<Room> viewAllRooms() {
         return roomService.reviewRooms().getRooms();
     }
 
-    // Booking Management
+
 
     @GetMapping("/bookings")
     public List<Booking> viewAllBookings() {
         return bookingService.getAllBookings();
     }
 
-//    @GetMapping("/booking")
-//    public ResponseEntity<Booking> getBookingDetails(@RequestBody ) {
-//        Booking booking = bookingService.getAllBookings(bookingId);
-//        return ResponseEntity.ok(booking);
-//    }
-
-    @DeleteMapping("/cancel-booking/{bookingId}")
-    public ResponseEntity<String> deleteBooking(@RequestBody DeleteBookingRequest booking) {
+    @DeleteMapping("/cancel-booking")
+    public ResponseEntity<String> deleteBooking(@RequestBody CancelBookingRequest booking) {
         bookingService.deleteBooking(booking);
         return ResponseEntity.ok("Booking canceled successfully!");
     }
 
-    // Guest Management
 //    @GetMapping("/guests")
 //    public List<GuestUser> viewAllGuests() {
 //        return guestServiceImpl.g
 //    }
-
-//    @GetMapping("/guest/{guestId}")
-//    public ResponseEntity<User> getGuestDetails(@PathVariable Long guestId) {
-//        User guest = userService.getGuestById(guestId);
-//        return ResponseEntity.ok(guest);
-//    }
-
-    @DeleteMapping("/delete-guest")
-    public ResponseEntity<?> deleteGuest(@RequestBody DeleteGuestRequest guest) {
-        guestServiceImpl.deleteGuest(guest);
-        return ResponseEntity.ok("Guest deleted successfully!");
+    @PostMapping("/logoutGuest")
+    public ResponseEntity<?> logoutGuest(@RequestBody LogoutGuestRequest logoutGuestRequest) {
+        try {
+            LogoutGuestResponse logoutGuestResponse = guestServiceImpl.logoutGuest(logoutGuestRequest);
+            return new ResponseEntity<>(new ApiResponse(true, logoutGuestResponse.getMessage()), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
+    @DeleteMapping("/deleteGuest")
+    public ResponseEntity<?> deleteGuest(@RequestBody DeleteGuestRequest deleteGuestRequest){
+        try{
+            DeleteGuestResponse deleteGuestResponse = guestServiceImpl.deleteGuest(deleteGuestRequest);
+            return new ResponseEntity<>(new ApiResponse(true, deleteGuestResponse.getMessage()), HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()),HttpStatus.BAD_REQUEST);
+        }
+    }
 }

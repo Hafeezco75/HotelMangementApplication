@@ -1,6 +1,5 @@
 package com.sevenStar.hotel.dtos.response;
 
-import com.sevenStar.hotel.dtos.responses.RegisterGuestResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

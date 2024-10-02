@@ -1,14 +1,11 @@
 package com.sevenStar.hotel.services.interfaces;
 
-import com.sevenStar.hotel.dtos.request.AddRoomRequest;
-import com.sevenStar.hotel.dtos.request.DeleteRoomRequest;
-import com.sevenStar.hotel.dtos.request.UpdateRoomRequest;
+import com.sevenStar.hotel.dtos.requests.AddRoomRequest;
+import com.sevenStar.hotel.dtos.requests.DeleteRoomRequest;
+import com.sevenStar.hotel.dtos.requests.UpdateRoomRequest;
 import com.sevenStar.hotel.dtos.requests.*;
 import com.sevenStar.hotel.dtos.response.*;
-import com.sevenStar.hotel.dtos.responses.*;
 import com.sevenStar.hotel.models.entities.Booking;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 
 public interface UserService {
@@ -19,13 +16,24 @@ public interface UserService {
 
     UpdateGuestResponse updateGuest(UpdateGuestRequest updateGuestRequest);
 
+    DeleteGuestResponse deleteAllGuest();
+
     DeleteGuestResponse deleteGuest(DeleteGuestRequest deleteGuestRequest);
 
-    MakeBookingResponse makeBooking(MakeBookingRequest makeBookingRequest);
-
-    DeleteBookingResponse deleteBooking(DeleteBookingRequest deleteRequest);
-
     LogoutGuestResponse logoutGuest(LogoutGuestRequest logoutGuestRequest);
+
+    CreateBookingResponse makeBooking(CreateBookingRequest makeBookingRequest);
+
+    CancelBookingResponse cancelBooking(CancelBookingRequest deleteRequest);
+
+
+    List<Booking> getAllBookings();
+
+    UpdateBookingResponse updateBooking(UpdateBookingRequest updateRequest);
+
+    ViewBookingsResponse viewBookings(ViewBookingsRequest viewBookingsRequest);
+
+    DeleteRoomResponse deleteAll();
 
     AddRoomResponse addRoom(AddRoomRequest request);
 
@@ -38,12 +46,6 @@ public interface UserService {
     AddRoomResponse searchByRoomNumber(int roomNumber);
 
     AddRoomResponse deleteAllRooms();
-
-    List<Booking> viewAllBookings();
-
-    UpdateBookingResponse updateBooking(UpdateBookingRequest updateRequest);
-
-    CreateBookingResponse createBooking(CreateBookingRequest createRequest);
 
 
 }

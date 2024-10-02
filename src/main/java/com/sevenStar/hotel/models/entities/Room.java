@@ -22,7 +22,7 @@ public class Room {
     private String roomType;
     private int roomNumber;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Booking> bookings;
 
 }

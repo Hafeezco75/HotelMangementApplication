@@ -1,8 +1,8 @@
 package com.sevenStar.hotel.services.interfaces;
 
-import com.sevenStar.hotel.dtos.request.AddRoomRequest;
-import com.sevenStar.hotel.dtos.request.DeleteRoomRequest;
-import com.sevenStar.hotel.dtos.request.UpdateRoomRequest;
+import com.sevenStar.hotel.dtos.requests.AddRoomRequest;
+import com.sevenStar.hotel.dtos.requests.DeleteRoomRequest;
+import com.sevenStar.hotel.dtos.requests.UpdateRoomRequest;
 import com.sevenStar.hotel.dtos.response.AddRoomResponse;
 import com.sevenStar.hotel.dtos.response.DeleteRoomResponse;
 import com.sevenStar.hotel.dtos.response.ReviewAllResponse;

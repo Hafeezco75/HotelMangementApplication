@@ -1,24 +1,23 @@
 package com.sevenStar.hotel.web;
 
 import com.sevenStar.hotel.dtos.requests.*;
+import com.sevenStar.hotel.dtos.response.*;
 import com.sevenStar.hotel.dtos.response.ApiResponse;
-import com.sevenStar.hotel.dtos.responses.*;
-import com.sevenStar.hotel.models.entities.Booking;
-import com.sevenStar.hotel.services.interfaces.GuestService;
+import com.sevenStar.hotel.enums.UserRoles;
+import com.sevenStar.hotel.services.interfaces.UserService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping()
+@RolesAllowed(UserRoles.Fields.GUEST)
+public class  GuestController {
 
-@RequestMapping("api/guest")
-public class GuestController {
     @Autowired
-    private GuestService guestService;
-
-
-
+    private UserService guestService;
 
     @PostMapping("/registerGuest")
     public ResponseEntity<?> registerGuest(@RequestBody RegisterGuestRequest registerGuestRequest){
@@ -30,7 +29,7 @@ public class GuestController {
         }
     }
 
-    @PostMapping("/loginGuest")
+    @GetMapping("/loginGuest")
     public ResponseEntity<?> loginGuest(@RequestBody LoginGuestRequest loginGuestRequest){
         try{
             LoginGuestResponse loginGuestResponse = guestService.loginGuest(loginGuestRequest);
@@ -50,38 +49,27 @@ public class GuestController {
         }
     }
 
-    @DeleteMapping("/deleteGuest")
-    public ResponseEntity<?> deleteGuest(@RequestBody DeleteGuestRequest deleteGuestRequest){
-        try{
-            DeleteGuestResponse deleteGuestResponse = guestService.deleteGuest(deleteGuestRequest);
-            return new ResponseEntity<>(new ApiResponse(true, deleteGuestResponse.getMessage()), HttpStatus.CREATED);
-        } catch (Exception e){
-            return new ResponseEntity<>(new ApiResponse(false, e.getMessage()),HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @PostMapping("/makeBooking")
-    public ResponseEntity<?> makeBooking(@RequestBody MakeBookingRequest makeBookingRequest){
+    public ResponseEntity<?> makeBooking(@RequestBody CreateBookingRequest makeBookingRequest){
         try{
-            MakeBookingResponse makeBookingResponse = guestService.makeBooking(makeBookingRequest);
+            CreateBookingResponse makeBookingResponse = guestService.makeBooking(makeBookingRequest);
             return new ResponseEntity<>(new ApiResponse(true, makeBookingResponse.getMessage()), HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()),HttpStatus.BAD_REQUEST);
         }
     }
 
-
     @DeleteMapping("/cancelBooking")
     public ResponseEntity<?> cancelBooking(@RequestBody CancelBookingRequest cancelBookingRequest){
         try{
-            CancelBookingResponse cancelBookingResponse = guestService.cancelBooking(cancelBookingRequest.getBookingId());
+            CancelBookingResponse cancelBookingResponse = guestService.cancelBooking(cancelBookingRequest);
             return new ResponseEntity<>(new ApiResponse(true,cancelBookingResponse.getMessage()), HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PostMapping("/logoutGuest")
+    @GetMapping("/logoutGuest")
     public ResponseEntity<?> logoutGuest(@RequestBody LogoutGuestRequest logoutGuestRequest){
         try{
             LogoutGuestResponse logoutGuestResponse = guestService.logoutGuest(logoutGuestRequest);
@@ -90,8 +78,5 @@ public class GuestController {
             return new ResponseEntity<>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
-
-
-
 }
 

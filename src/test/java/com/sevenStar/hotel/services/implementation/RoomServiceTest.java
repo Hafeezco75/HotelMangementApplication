@@ -1,9 +1,9 @@
-package com.sevenStar.hotel.services;
+package com.sevenStar.hotel.services.implementation;
 
 
-import com.sevenStar.hotel.dtos.request.AddRoomRequest;
-import com.sevenStar.hotel.dtos.request.DeleteRoomRequest;
-import com.sevenStar.hotel.dtos.request.UpdateRoomRequest;
+import com.sevenStar.hotel.dtos.requests.AddRoomRequest;
+import com.sevenStar.hotel.dtos.requests.DeleteRoomRequest;
+import com.sevenStar.hotel.dtos.requests.UpdateRoomRequest;
 import com.sevenStar.hotel.dtos.response.AddRoomResponse;
 import com.sevenStar.hotel.dtos.response.DeleteRoomResponse;
 import com.sevenStar.hotel.dtos.response.ReviewAllResponse;
@@ -142,7 +142,7 @@ public class RoomServiceTest {
         request.setRoomNumber(419);
         AddRoomResponse addedRoom = roomService.addRoom(request);
         UpdateRoomRequest request2 = new UpdateRoomRequest();
-        request2.setId(addedRoom.getRoomId());
+        request2.setRoomId(addedRoom.getRoomId());
         request2.setRoomNumber(2024);
         request2.setType("EXECUTIVE");
         request2.setDescription("The Room is a flat and suitable for extended family");

@@ -12,15 +12,11 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class CreateBookingRequest {
-    private Long bookingID;
     private LocalDate checkIn;
     private LocalDate checkOut;
     @ManyToOne
     private Room room;
-    @NonNull
-    private UserRoles userRole;
-    @NonNull
-    private String roomType;
-
+    private Long userId;
+    private String paymentMethod;
 
 }

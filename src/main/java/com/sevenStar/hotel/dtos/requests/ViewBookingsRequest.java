@@ -8,8 +8,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class ViewBookingsRequest {
-    private Long Id;
-    private String email;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
+    private Long bookingId;
+    private Long userId;
+
 }
