@@ -14,17 +14,13 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roomId;
-
-    private String roomName;
-
+    private Long roomId;
     private BigDecimal roomPrice;
-
     private boolean roomAvailable;
-
     private String description;
-
     private String roomImage;
+    private String roomType;
+    private int roomNumber;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Booking> bookings;

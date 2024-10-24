@@ -1,0 +1,9 @@
+<system.net>
+    <mailSettings>
+        <smtp>
+            <network enableSsl="true"/>
+        </smtp>
+    </mailSettings>
+</system.net>
+
+

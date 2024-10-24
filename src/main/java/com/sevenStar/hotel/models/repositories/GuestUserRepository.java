@@ -4,6 +4,7 @@ import com.sevenStar.hotel.models.entities.GuestUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface GuestRepository extends JpaRepository<GuestUser,Integer> {
+public interface GuestUserRepository extends JpaRepository<GuestUser,Long> {
+    GuestUser findByEmail(String email);
 
 }
